@@ -11,7 +11,7 @@ __pycache__/
 
 # Ignorar pastas específicas do Docker
 docker/configs/injector/tailscale/
-docker/data/injector/nexus_client_clearance_.csv
+docker/data/injector
 docker/data/alg/AD.db
 **/tailscale/files/
 
