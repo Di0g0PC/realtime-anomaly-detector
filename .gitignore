@@ -1,0 +1,28 @@
+# Ignorar ficheiros temporários e do sistema
+__pycache__/
+*.pyc
+*.pyo
+*.log
+*.tmp
+
+# Ignorar ficheiros de configuração locais
+.env
+*.env
+
+# Ignorar pastas específicas do Docker
+docker/configs/injector/tailscale/
+docker/data/injector/nexus_client_clearance_.csv
+docker/data/alg/AD.db
+**/tailscale/files/
+
+# Ignorar ficheiros que possam conter informações sensíveis
+*.state
+*.conf
+*.json
+*.key
+*.crt
+
+# Ignorar IDEs (opcional, mas útil)
+.vscode/
+.idea/
+*.swp

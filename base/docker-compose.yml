@@ -1,0 +1,14 @@
+services:
+
+  fmk_base:
+    container_name: fmk_base
+    image: sbrov3/${fmkID}_base:${fmkVersion}d
+    build: 
+      context: .
+
+## Add below extra services as databases, etc.
+## Notice that
+##    volumes:
+##    - ../docker/configs/{containerName}/:???
+##    - ../docker/services_data/{containerName}/:???
+

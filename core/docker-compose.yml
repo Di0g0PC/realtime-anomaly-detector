@@ -1,0 +1,70 @@
+services:
+
+  fmk_app:
+    container_name: fmk_app
+    image: sbrov3/${fmkID}_app:${fmkVersion}d
+    build:
+      context: app/.
+    ports:
+      - 8000:8000
+    volumes:
+    - ../docker/data/injector/:/data
+    - ../docker/configs/injector/:/configs:ro
+    # - ../docker/configs/injector/tailscale:/var/lib/tailscale
+    # devices:
+    # - /dev/net/tun:/dev/net/tun
+    # cap_add:
+    #   - net_admin
+
+  fmk_alg:
+    container_name: fmk_alg
+    image: sbrov3/${fmkID}_alg:${fmkVersion}d
+    build:
+      context: alg/.
+    ports:
+      - 7000:7000
+    volumes:
+    - ../docker/data/alg/:/data
+    - ../docker/configs/alg/:/configs:ro
+
+  fmk_webapp:
+    container_name: fmk_webapp
+    image: sbrov3/${fmkID}_webapp:${fmkVersion}d
+    build:
+      context: webapp/.
+    # depends_on:
+    #   - fmk_app
+    ports:
+      - 8501:8501
+    volumes:
+    - ../docker/data/webapp/:/data
+    - ../docker/configs/webapp/:/configs:ro
+ 
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - prometheus_data:/prometheus
+      - ../grafana-prometheus/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - '9090:9090'
+
+  grafana:
+    image: grafana/grafana:latest
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ../grafana-prometheus/grafana/provisioning:/etc/grafana/provisioning
+      - ../grafana-prometheus/grafana/config.ini:/etc/grafana/config.ini
+      - ../grafana-prometheus/grafana/dashboards:/var/lib/grafana/dashboards
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=TCAF2025
+    depends_on:
+      - prometheus
+    ports:
+      - '3000:3000'
+
+volumes:
+  prometheus_data:
+  grafana_data:
+
